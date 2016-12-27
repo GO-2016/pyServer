@@ -51,15 +51,16 @@ def handle_sock(sock, addr, model):
     np_arr_req = None
     try:
         np_arr_req = reqv1_proto_to_np(reqV1)
-        if np_arr_req.shape[0] == 7:
-            np_arr_req = np.swapaxes(np_arr_req, 0, 2)
-            np_arr_req = np.swapaxes(np_arr_req, 0, 1)
+        #if np_arr_req.shape[0] == 7:
+        #    np_arr_req = np.swapaxes(np_arr_req, 0, 2)
+        #    np_arr_req = np.swapaxes(np_arr_req, 0, 1)
     except Exception as e:
         print('Invalid format: ', e)
         sock.close()
         return
 
     pred = model.predict(np.array([np_arr_req]))[0]
+    print(pred)
     respV1 = respv1_np_to_proto(pred)
 
     str = respV1.SerializeToString()
@@ -90,4 +91,4 @@ def run_server(model, port):
 
 if __name__ == '__main__':
     model = load_model_and_weights()
-    run_server(model, 7591)
+    run_server(model, 7391)
